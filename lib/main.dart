@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_bloc/presentation/features/country/country_cubit.dart';
 import 'package:flutter_clean_bloc/presentation/theme/app_theme.dart';
 
 import 'generated/codegen_loader.g.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
+        BlocProvider(create: (_) => getIt<CountryCubit>()),
         BlocProvider(create: (_) => getIt<FavouriteBloc>()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
