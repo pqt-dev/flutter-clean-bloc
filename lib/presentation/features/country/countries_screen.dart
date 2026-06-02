@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../infrastructure/di/injection.dart';
 import '../../core/widgets/app_loader.dart';
 import 'country_cubit.dart';
 import 'country_state.dart';
@@ -38,9 +37,11 @@ class CountriesScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.error_outline,
-                          size: 48.0,
-                          color: Theme.of(context).colorScheme.error),
+                      Icon(
+                        Icons.error_outline,
+                        size: 48.0,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                       const SizedBox(height: 16.0),
                       Text(
                         error,
@@ -65,4 +66,3 @@ class CountriesScreen extends StatelessWidget {
     );
   }
 }
-
