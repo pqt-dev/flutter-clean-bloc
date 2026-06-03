@@ -10,7 +10,7 @@ class AppTheme {
         extensions: [
           _lightThemeExtension,
         ],
-        textTheme: GoogleFonts.ubuntuTextTheme(),
+        textTheme: GoogleFonts.ubuntuTextTheme(ThemeData.light().textTheme),
       );
 
   static final _lightThemeExtension = AppThemeExtension(
@@ -32,7 +32,7 @@ class AppTheme {
         extensions: [
           _darkThemeExtension,
         ],
-        textTheme: GoogleFonts.ubuntuTextTheme(),
+        textTheme: GoogleFonts.ubuntuTextTheme(ThemeData.dark().textTheme),
       );
 
   static final _darkThemeExtension = AppThemeExtension(

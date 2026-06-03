@@ -19,6 +19,7 @@ class CountryDatasourceRemote implements CountryDatasource {
       method: ApiMethod.get,
       queryParameters: {
         'fields': [
+          'cca3',
           'name',
           'flags',
           'capital',
@@ -28,7 +29,6 @@ class CountryDatasourceRemote implements CountryDatasource {
           'population',
           'postalCode',
           'timezones',
-          'borders',
         ],
       },
       decoder: (data) =>

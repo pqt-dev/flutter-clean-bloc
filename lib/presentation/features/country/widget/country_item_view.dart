@@ -1,12 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_bloc/domain/entities/country.dart';
 
-import '../../favourite/favourite_bloc.dart';
 import '../../../core/widgets/app_text.dart';
-import '../../favourite/favourite_event.dart';
-import '../../favourite/favourite_state.dart';
+import '../../favourite/widget/favourite_toggle_button.dart';
 
 class CountryItemView extends StatelessWidget {
   const CountryItemView({super.key, required this.data});
@@ -53,29 +50,7 @@ class CountryItemView extends StatelessWidget {
             Positioned(
               top: 0,
               right: 0,
-              child: BlocSelector<FavouriteBloc, FavouriteState, bool>(
-                selector: (state) => state.favouriteCountries
-                    .any((c) => c.name?.common == data.name?.common),
-                builder: (context, isFavourite) {
-                  return IconButton(
-                    icon: Icon(
-                      isFavourite ? Icons.favorite : Icons.favorite_border,
-                      color: isFavourite ? Colors.red : Colors.grey,
-                    ),
-                    onPressed: () {
-                      if (isFavourite) {
-                        context
-                            .read<FavouriteBloc>()
-                            .add(RemoveFavouriteEvent(data));
-                      } else {
-                        context
-                            .read<FavouriteBloc>()
-                            .add(AddFavouriteEvent(data));
-                      }
-                    },
-                  );
-                },
-              ),
+              child: FavouriteToggleButton(country: data),
             ),
           ],
         ),

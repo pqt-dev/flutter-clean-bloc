@@ -8,6 +8,7 @@ part 'country_model.g.dart';
 @freezed
 abstract class CountryModel with _$CountryModel {
   const factory CountryModel({
+    String? cca3,
     List<String>? capital,
     String? region,
     String? subregion,

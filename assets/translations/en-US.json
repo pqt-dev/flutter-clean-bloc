@@ -4,5 +4,21 @@
   "favourite" : "Favourite",
   "setting" : "Setting",
   "ok" : "OK",
-  "cancel" : "Cancel"
+  "cancel" : "Cancel",
+  "retry" : "Retry",
+  "go_to_countries" : "Go to the country list",
+  "language" : "Language",
+  "theme" : "Theme",
+  "theme_light" : "Light",
+  "theme_dark" : "Dark",
+  "theme_system" : "System",
+  "favourite_title" : "Favourite Countries",
+  "favourite_empty" : "No favourite countries yet.",
+  "error" : {
+    "network" : "No internet connection. Please check your network and try again.",
+    "server" : "Something went wrong on the server. Please try again later.",
+    "auth" : "You are not authorized. Please sign in and try again.",
+    "parsing" : "We couldn't read the data. Please try again.",
+    "unexpected" : "An unexpected error occurred. Please try again."
+  }
 }

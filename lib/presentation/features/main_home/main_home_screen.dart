@@ -1,7 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_bloc/generated/locale_keys.g.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../infrastructure/di/injection.dart';
+import '../favourite/favourite_bloc.dart';
+import '../favourite/favourite_event.dart';
 
 class MainHomeScreen extends StatelessWidget {
   const MainHomeScreen({
@@ -13,6 +18,16 @@ class MainHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Favourites are shared across tab branches (the country list's toggle and
+    // the favourites screen), so the bloc is provided at the shell — the lowest
+    // common ancestor of those branches — not at the app root.
+    return BlocProvider(
+      create: (_) => FavouriteBloc(getIt())..add(const LoadFavouritesEvent()),
+      child: _buildScaffold(context),
+    );
+  }
+
+  Widget _buildScaffold(BuildContext context) {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(

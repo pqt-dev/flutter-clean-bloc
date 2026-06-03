@@ -7,7 +7,7 @@ class AppLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpinKitWanderingCubes(
-      color: Colors.orange,
+      color: Theme.of(context).colorScheme.primary,
     );
   }
 }

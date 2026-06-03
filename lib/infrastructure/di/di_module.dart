@@ -4,8 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../data/datasource/core/api_endpoint.dart';
 import '../../data/datasource/core/interceptor/auth_interceptor.dart';
+import '../config/app_config.dart';
 
 @module
 abstract class NetworkModule {
@@ -13,9 +13,9 @@ abstract class NetworkModule {
   Dio dio(
     AuthInterceptor authInterceptor,
     PrettyDioLogger logger,
-    @Named('BaseUrl') String baseUrl,
+    AppConfig config,
   ) {
-    final dio = Dio(BaseOptions(baseUrl: baseUrl));
+    final dio = Dio(BaseOptions(baseUrl: config.baseUrl));
     dio.interceptors.add(authInterceptor);
     if (kDebugMode) {
       dio.interceptors.add(logger);
@@ -33,12 +33,6 @@ abstract class NetworkModule {
     compact: true,
     maxWidth: 90,
   );
-}
-
-@module
-abstract class ConfigModule {
-  @Named('BaseUrl')
-  String get baseUrl => APIEndpoint.baseUrl;
 }
 
 @module

@@ -8,8 +8,10 @@ extension ThemeX on BuildContext {
     return theme?.getColor(key);
   }
 
-  bool get isDarkMode {
-    final brightness = MediaQuery.of(this).platformBrightness;
-    return brightness == Brightness.dark;
-  }
+  /// Whether the currently applied theme is dark.
+  ///
+  /// Reads the active [ThemeData.brightness] (which reflects the app's selected
+  /// [ThemeMode]), not the OS-level brightness, so it stays correct when the
+  /// user overrides the system theme.
+  bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
 }
