@@ -25,7 +25,7 @@ class AppRouter {
                 routes: [
                   GoRoute(
                     path: AppRoutes.countries,
-                    builder: (context, state) => CountriesScreen(),
+                    builder: (context, state) => const CountriesScreen(),
                   ),
                 ],
               ),

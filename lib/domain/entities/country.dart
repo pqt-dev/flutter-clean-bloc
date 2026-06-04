@@ -5,6 +5,7 @@ part 'country.freezed.dart';
 @freezed
 abstract class Country with _$Country {
   const factory Country({
+    String? cca3,
     List<String>? capital,
     String? region,
     String? subregion,

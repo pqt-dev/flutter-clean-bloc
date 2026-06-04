@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_bloc/generated/locale_keys.g.dart';
 
 import '../country/widget/country_item_view.dart';
 import 'favourite_bloc.dart';
@@ -11,12 +13,12 @@ class FavouriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Favourite Countries')),
+      appBar: AppBar(title: Text(LocaleKeys.favourite_title.tr())),
       body: SafeArea(
         child: BlocBuilder<FavouriteBloc, FavouriteState>(
           builder: (context, state) {
             if (state.favouriteCountries.isEmpty) {
-              return const Center(child: Text('No favourite countries yet.'));
+              return Center(child: Text(LocaleKeys.favourite_empty.tr()));
             }
             return GridView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),

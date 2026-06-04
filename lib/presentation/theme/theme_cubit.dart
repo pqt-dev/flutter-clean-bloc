@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 
 import '../../domain/core/app_theme_mode.dart';
 import '../../domain/use_cases/theme/theme_use_case.dart';
 
-@injectable
 class ThemeCubit extends Cubit<ThemeMode> {
   final ThemeUseCase _themeUseCase;
 
-  ThemeCubit(this._themeUseCase) : super(ThemeMode.system) {
-    _loadTheme();
-  }
+  ThemeCubit(this._themeUseCase) : super(ThemeMode.system);
 
-  Future<void> _loadTheme() async {
+  Future<void> loadTheme() async {
     final appThemeMode = await _themeUseCase.fetch();
     emit(_toThemeMode(appThemeMode));
   }
