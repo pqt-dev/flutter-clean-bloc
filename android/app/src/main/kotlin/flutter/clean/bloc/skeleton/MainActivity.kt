@@ -1,4 +1,4 @@
-package flutter.clean.bloc
+package flutter.clean.bloc.skeleton
 
 import io.flutter.embedding.android.FlutterActivity
 

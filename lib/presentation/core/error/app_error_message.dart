@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_clean_bloc/domain/core/app_error.dart';
-import 'package:flutter_clean_bloc/generated/locale_keys.g.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/core/app_error.dart';
+import 'package:flutter_clean_bloc_skeleton/generated/locale_keys.g.dart';
 
 /// Maps a typed [AppError] to a localized, user-facing message.
 ///

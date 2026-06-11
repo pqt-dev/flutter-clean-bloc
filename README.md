@@ -1,206 +1,153 @@
-# 🦅 Flutter Clean BLoC Boilerplate
+# 🦅 Flutter Clean BLoC Skeleton
 
-A lightweight, scalable Flutter starter template implementing **Clean Architecture** with **BLoC** for state management.
+A lightweight, scalable Flutter **starter skeleton** implementing **Clean
+Architecture** with **BLoC / Cubit** for state management. Clone it, run a
+single command, and you have a clean, renamed project ready to build your app
+on — with no boilerplate example code left behind.
 
-## 🎯 Features
+## ✨ What you get
 
-- **Architecture**: Clean separation of concerns
-- **BLoC State Management**: Predictable and scalable state management solution
-- **Dark/Light Theme**: Built-in theme support
-- **Localization**: Multi-language support
-- **Routing**: Declarative routing with go_router
+- **Clean Architecture** — clear `data` / `domain` / `presentation` separation
+- **BLoC & Cubit** — predictable, scalable state management
+- **Dependency Injection** — `get_it` + `injectable` (code-generated)
+- **Routing** — declarative navigation with `go_router`
+- **Networking** — typed `Dio` client with centralized error mapping
+- **Localization** — multi-language via `easy_localization`
+- **Theming** — built-in light / dark theme switching
 
-## 📚 Packages & Tools
+## 🚀 Getting started
 
-| Category         | Package                                                                               | Purpose                                                                                                                   |
-|------------------|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
-| State Management | [flutter_bloc](https://pub.dev/packages/flutter_bloc)                                     | Predictable state management                                                                                              |
-| Navigation       | [go_router](https://pub.dev/packages/go_router)                                       | Declarative routing                                                                                                       |
-| Local storage    | [shared_preferences](https://pub.dev/packages/shared_preferences)                     | Local key-value storage                                                                                                   |
-| Network          | [dio](https://pub.dev/packages/dio)                                                   | HTTP client                                                                                                               |
-| Localization     | [easy_localization](https://pub.dev/packages/easy_localization)                       | Internationalization                                                                                                      |
-| Service locator  | [get_it](https://pub.dev/packages/get_it)                                             | Allows to decouple the interface from a concrete implementation and to access the concrete implementation from everywhere |
-| Utilities        |                                                                                       |                                                                                                                           |
-|                  | [build_runner](https://pub.dev/packages/build_runner)                                 | A build system for Dart code generation and modular compilation                                                           |
-|                  | [freezed](https://pub.dev/packages/freezed)                                           | Code generation for immutable classes                                                                                     |
-|                  | [adaptive_dialog](https://pub.dev/packages/adaptive_dialog)                           | Show alert dialog or modal action sheet adaptively according to platform.                                                 |
-|                  | [cached_network_image](https://pub.dev/packages/cached_network_image)                 | Load and cache network images                                                                                             |
-|                  | [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications)   | Displaying and scheduling local notifications                                                                             |
-|                  | [flutter_gen](https://pub.dev/packages/flutter_gen)                                   | Generator for your assets, fonts, colors,                                                                                 |
-|                  | [injectable](https://pub.dev/packages/injectable)                                     | Injectable is a convenient code generator for get_it. Inspired by Angular DI, Guice DI and inject.dart.                   |
-|                  | [flutter_spinkit](https://pub.dev/packages/flutter_spinkit)                           | A collection of loading indicators animated with flutter.                                                                 |
+> [!NOTE]
+> **Prerequisite:** This project uses [FVM](https://fvm.app) (Flutter Version
+> Manager). Install FVM, or set `USE_FVM := false` at the top of the `Makefile`
+> to use a standard Flutter install.
 
-## 🏗 Project Structure
+> [!WARNING]
+> The `make` commands are tested on **macOS** and may not work as-is on Linux
+> or Windows (they rely on BSD `sed`, `PlistBuddy`, etc.).
+
+### Bootstrap a new app — one command
+
+This is the recommended way to start a new project from this skeleton:
+
+```bash
+make init project_name=my_app package_name=com.company.myapp app_name="My App"
+```
+
+`make init` does everything in a single step:
+
+| Step | What happens |
+| ---- | ------------ |
+| 🗑️  **Strip examples** | Removes the example features (`country`, `favourite`, `search`) across data/domain/presentation + their tests |
+| 📝 **Install skeleton** | Drops in a minimal **Home + Setting** shell (bottom-nav, theme & language switching) |
+| ✏️  **Rename** | Updates the Dart package name, all `package:` imports, Android `applicationId`/namespace + Kotlin path, iOS bundle id, and the app display name |
+| ⚙️  **Regenerate** | Runs `pub get`, localization, and code generation |
+| 🧹 **Clean** | Wipes caches, build artifacts, and the skeleton templates — no boilerplate traces left |
+| 🔬 **Verify** | Runs `flutter analyze` to confirm the project compiles |
+| 🔁 **Reset git** | Optionally wipes git history into a fresh `Initial commit` (asks for confirmation) |
+
+**Parameters**
+
+| Param            | Required | Description                                            |
+| ---------------- | -------- | ------------------------------------------------------ |
+| `project_name`   | ✅       | Dart package name in `pubspec.yaml` (snake_case)       |
+| `package_name`   | ✅       | Android + iOS bundle ID (e.g. `com.company.myapp`)     |
+| `app_name`       | optional | Display name shown on the device home screen           |
+| `android_package`| optional | Android-only ID (overrides `package_name` for Android) |
+| `ios_bundle`     | optional | iOS-only bundle ID (overrides `package_name` for iOS)  |
+
+### Rename only (keep example features)
+
+If you just want to rename an existing project **without** removing the
+examples, use `make rename` with the same parameters:
+
+```bash
+make rename project_name=my_app package_name=com.company.myapp app_name="My App"
+```
+
+You can also rename pieces individually:
+
+```bash
+make rename project_name=my_app          # project name + Dart imports only
+make rename android_package=com.a.b      # Android package only
+make rename ios_bundle=com.a.b           # iOS bundle id only
+```
+
+## 🏗 Project structure
 
 ```
 lib
-├── core/              # Foundational code, shared across the app.
-│   ├── config/        # App configuration (flavors, base URLs).
-│   ├── constants/     # Global constants (Locale, storage keys, date formats, etc.).
-│   └── di/            # Dependency injection setup using GetIt.
+├── core/              # Foundational code shared across the app
+│   ├── config/        # App configuration (flavors, base URLs, API keys)
+│   ├── constants/     # Global constants (locales, storage keys, ...)
+│   └── di/            # Dependency injection setup (get_it + injectable)
 │
 ├── data/
-│   ├── datasources/   # Abstract sources for local (DB, SharedPreferences) and remote (API) data.
-│   ├── failures/      # Exception Mappers ensuring proper error handling (Exception -> AppError).
-│   ├── mappers/       # Mappers to transform Data Models to Domain Entities.
-│   ├── models/        # Data Transfer Objects (DTOs) with fromJson/toJson methods.
-│   └── repositories/  # Implementation of Domain Repositories.
+│   ├── datasource/    # Local & remote data sources (HTTP client, interceptors)
+│   ├── failures/      # Exception mappers (Exception -> AppError)
+│   ├── mappers/       # Map data models <-> domain entities
+│   ├── models/        # DTOs with fromJson/toJson
+│   └── repositories/  # Implementations of domain repositories
 │
 ├── domain/
-│   ├── core/          # Core Domain Logic (Result type, AppError definitions).
-│   ├── entities/      # Pure business objects (Plain Dart Objects).
-│   ├── repositories/  # Interfaces (Contracts) for repositories.
-│   └── use_cases/     # Application Business Rules (Interactors).
+│   ├── core/          # Core domain logic (Result type, AppError)
+│   ├── entities/      # Pure business objects
+│   ├── repositories/  # Repository contracts (interfaces)
+│   └── use_cases/     # Application business rules
 │
 ├── presentation/
-│   ├── features/      # Screens and ViewModels, grouped by feature (e.g., home, search, settings).
-│   ├── router/        # GoRouter configuration and route definitions.
-│   ├── theme/         # App theme configuration (colors, styles, fonts) and Theme ViewModel.
-│   └── dialogs/       # Reusable custom dialogs.
+│   ├── core/          # Shared widgets, dialogs, error views, bloc utils
+│   ├── features/      # Screens & blocs/cubits grouped by feature
+│   ├── extensions/    # BuildContext & other extensions
+│   ├── router/        # GoRouter configuration and route definitions
+│   └── theme/         # Theme config (colors, styles) and ThemeCubit
 │
-└── main.dart          # The entry point of the application.
+└── main.dart          # Application entry point
 ```
 
+## 📚 Core packages
 
+| Category         | Package                                                           |
+| ---------------- | ----------------------------------------------------------------- |
+| State management | [flutter_bloc](https://pub.dev/packages/flutter_bloc)             |
+| Navigation       | [go_router](https://pub.dev/packages/go_router)                   |
+| Dependency inj.  | [get_it](https://pub.dev/packages/get_it) · [injectable](https://pub.dev/packages/injectable) |
+| Network          | [dio](https://pub.dev/packages/dio) · [pretty_dio_logger](https://pub.dev/packages/pretty_dio_logger) |
+| Local storage    | [shared_preferences](https://pub.dev/packages/shared_preferences) |
+| Localization     | [easy_localization](https://pub.dev/packages/easy_localization)   |
+| Code generation  | [freezed](https://pub.dev/packages/freezed) · [json_serializable](https://pub.dev/packages/json_serializable) · [build_runner](https://pub.dev/packages/build_runner) |
+| Assets           | [flutter_gen](https://pub.dev/packages/flutter_gen)               |
+| UI               | [flutter_spinkit](https://pub.dev/packages/flutter_spinkit) · [google_fonts](https://pub.dev/packages/google_fonts) |
 
-## 🚀 Getting Started
-
-> [!NOTE]
-> Prerequisite: This project uses FVM (Flutter Version Manager). Ensure you have FVM installed or remove fvm from the commands below if using a standard Flutter install.
-
-> [!WARNING]
-> Warning: Note: The `make` command is primarily tested on macOS and may not work correctly on Linux or Windows.
-
-
-### 1. Customization
-
-> [!NOTE]
-> This project uses [change_app_package_name](https://pub.dev/packages/change_app_package_name) internally to update Android and iOS application identifiers.
-
-#### Rename Flutter project & application package (Recommended)
-
-This project provides a `make rename` command to **rename both**:
-- the **Flutter project name** (`pubspec.yaml`)
-- the **application package identifiers** (Android & iOS)
-
-in a single step.
-
-Run:
+## 🛠 Day-to-day commands
 
 ```bash
-make rename project_name=new_project_name package_name=com.new.both.name
+make               # check SDK, clean, pub get, generate l10n + code (full setup)
+make pub_get       # flutter pub get
+make l10n          # regenerate localization from assets/translations
+make build_runner  # run code generation (freezed, json, injectable)
+make clean_cache   # wipe caches and IDE/build artifacts
+make info          # print current project name, Android package, iOS bundle id
 ```
 
-What this command does?
-
-✅ Update project name in pubspec.yaml
-
-✅ Update all Dart imports
-(package:old_project_name/... → package:new_project_name/...)
-
-✅ Change Android applicationId
-
-✅ Change iOS bundle identifier
-
-✅ Move Android MainActivity to the correct package directory
-
-#### Clean Old Project Traces (Important)
-
-After renaming the project, you might still find traces of the old project name in cache files or IDE configurations. To completely wipe them out and ensure a clean workspace, run this command:
+### Manual setup (without `make`)
 
 ```bash
-make clean_cache
+fvm flutter clean
+fvm flutter pub get
+fvm dart run easy_localization:generate -S assets/translations
+fvm dart run easy_localization:generate -S assets/translations -f keys -o locale_keys.g.dart
+fvm dart run build_runner build -d
 ```
 
-> [!NOTE]
-> *The `.idea` folder and `.iml` files will automatically be regenerated with the new project name the next time you open the project in your IDE.*
-
-#### OPTIONAL:
-
-**Rename only the project name and update all Dart imports**
-
-```bash
-make rename project_name=new_project_name
-```
-
-**Rename only the Android package name**
-
-```bash
-make rename android_package=com.new.package.name
-```
-
-**Rename only the iOS bundle identifier**
-
-```bash
-make rename ios_bundle=com.new.bundle.id
-```
-
-**Rename Android and iOS using the same package name**
-
-```bash
-make rename package_name=com.new.both.name
-```
-
-### 2. Setup
-You can set up the project in two ways. Using Makefile is recommended for simplicity.
-
-**Option 1: Using Makefile (Recommended)**
-
-This command will clean the project, get dependencies, and run code generation all at once.
-
-- All in one terminal: clean, get packages, generate necessary classes/files:
-
-   ```bash
-   make
-   ```
-
-- To run a specific task:
-
-    ```bash
-    make clean         # Clean project
-    make pub_get       # Get dependencies
-    make l10n          # Generate localization files
-    make build_runner  # Generate Freezed/JsonSerializable files
-    ```
-
-**Option 2: Manual Setup**
-
-If you prefer to run commands manually, follow these steps in order:
-
-- Clean the project:
-   
-   ```bash
-   fvm flutter clean
-  ```
-
-- Get dependencies:
-
-   ```bash
-   fvm flutter pub get
-   ```
-
-- Generate localization files:
-
-   ```bash
-   fvm dart run easy_localization:generate -S assets/translations && fvm dart run easy_localization:generate -S assets/translations -f keys -o locale_keys.g.dart
-   ```
-
-- Generate auto-generated files (such as `*.freezed.dart` , `*.g.dart` ...):
-
-   ```bash
-   fvm dart run build_runner build -d
-   ```
 ## 🧪 Testing
-- Run unit test:
 
-    ```bash
-    fvm flutter test
-    ```
+```bash
+fvm flutter test
+```
 
-- Generate Coverage Report (HTML):
+Generate an HTML coverage report:
 
-    ```bash
-    fvm flutter test --coverage && genhtml coverage/lcov.info -o coverage/html && open coverage/html/index.html
-    ```
-
-   ---
+```bash
+fvm flutter test --coverage && genhtml coverage/lcov.info -o coverage/html && open coverage/html/index.html
+```

@@ -1,5 +1,5 @@
-import 'package:flutter_clean_bloc/domain/entities/country.dart';
-import 'package:flutter_clean_bloc/domain/repositories/favourite/favourite_repository.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/entities/country.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/repositories/favourite/favourite_repository.dart';
 import 'package:injectable/injectable.dart';
 
 /// Favourite membership rules (keyed by the stable ISO [Country.cca3]) plus

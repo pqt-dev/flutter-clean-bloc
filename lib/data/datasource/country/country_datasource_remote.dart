@@ -1,4 +1,4 @@
-import 'package:flutter_clean_bloc/domain/core/result.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/core/result.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../models/country/country_model.dart';

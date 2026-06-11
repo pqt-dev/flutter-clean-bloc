@@ -13,9 +13,13 @@ BLUE := \033[0;34m
 RED := \033[0;31m
 NC := \033[0m
 
-.PHONY: all check_version clean pub_get l10n build_runner rename info clean_cache
+.PHONY: all check_version clean pub_get l10n build_runner rename info clean_cache init init_skeleton reset_git validate_rename
 # Usage:
-#   make rename project_name=my_app package_name=com.company.myapp app_name="My App"
+#   Bootstrap a brand-new app from this boilerplate in ONE command:
+#     make init project_name=my_app package_name=com.company.myapp app_name="My App"
+#
+#   ...or only rename an existing project (keeps example features):
+#     make rename project_name=my_app package_name=com.company.myapp app_name="My App"
 #
 # Params:
 #   project_name   — Dart package name in pubspec.yaml (snake_case)
@@ -23,6 +27,9 @@ NC := \033[0m
 #   android_package — Android only (optional, overrides package_name for Android)
 #   ios_bundle      — iOS only    (optional, overrides package_name for iOS)
 #   app_name        — Display name shown on device home screen
+#
+# `make init` = init_skeleton (remove example features) + rename + clean +
+#                  reset git history (with confirmation) + verify.
 
 all: check_version clean pub_get l10n build_runner
 	@echo "$(GREEN)🎉 All tasks completed successfully!$(NC)"
@@ -206,3 +213,85 @@ clean_cache:
 	@rm -rf android/app/.cxx/ .idea/ coverage/ build/
 	@rm -f *.iml android/*.iml
 	@echo "$(GREEN)✔ Cache cleaned successfully!$(NC)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# init — one command to turn this boilerplate into a fresh project.
+#   make init project_name=my_app package_name=com.company.myapp app_name="My App"
+# ─────────────────────────────────────────────────────────────────────────────
+SKELETON_DIR := tool/skeleton
+
+init:
+	@if [ -z "$(project_name)" ] || [ -z "$(package_name)" ]; then \
+		echo "$(RED)❌ Usage: make init project_name=my_app package_name=com.company.myapp app_name=\"My App\"$(NC)"; \
+		exit 1; \
+	fi
+	@echo "$(BLUE)🚀 Bootstrapping a new app from the boilerplate...$(NC)"
+	@$(MAKE) init_skeleton
+	@$(MAKE) rename project_name=$(project_name) package_name=$(package_name) app_name="$(app_name)"
+	@echo "$(BLUE)🧹 Removing skeleton templates (no boilerplate traces left)...$(NC)"
+	@rm -rf $(SKELETON_DIR)
+	@rmdir tool 2>/dev/null || true
+	@$(MAKE) clean_cache
+	@echo "$(BLUE)🔬 Verifying project compiles...$(NC)"
+	@$(FLUTTER) analyze --no-fatal-infos && echo "$(GREEN)✔ analyze passed$(NC)" || (echo "$(RED)❌ analyze failed — please review$(NC)"; exit 1)
+	@$(MAKE) reset_git
+	@echo "$(GREEN)🎉 New app '$(project_name)' is ready to build on!$(NC)"
+	@$(MAKE) info
+
+# Remove example features (country / favourite / search) and install a minimal
+# Home + Setting skeleton from tool/skeleton. One-shot — run via init.
+init_skeleton:
+	@if [ ! -d "$(SKELETON_DIR)" ]; then \
+		echo "$(RED)❌ $(SKELETON_DIR) not found. 'init_skeleton' is a one-shot step and was already applied.$(NC)"; \
+		exit 1; \
+	fi
+	@echo "$(BLUE)🗑️  Removing example features (country / favourite / search)...$(NC)"
+	@rm -rf \
+		lib/data/datasource/country \
+		lib/data/mappers \
+		lib/data/models/country \
+		lib/data/repositories/country \
+		lib/data/repositories/favourite \
+		lib/domain/entities \
+		lib/domain/repositories/country \
+		lib/domain/repositories/favourite \
+		lib/domain/use_cases/country \
+		lib/domain/use_cases/favourite \
+		lib/presentation/features/country \
+		lib/presentation/features/favourite \
+		lib/presentation/features/search \
+		test/data/mappers \
+		test/data/repositories/country \
+		test/data/repositories/favourite \
+		test/domain/use_cases/country \
+		test/domain/use_cases/favourite \
+		test/presentation/features
+	@echo "$(BLUE)📝 Installing minimal Home + Setting skeleton...$(NC)"
+	@cp $(SKELETON_DIR)/app_routes.dart.tmpl       lib/presentation/router/app_routes.dart
+	@cp $(SKELETON_DIR)/app_router.dart.tmpl        lib/presentation/router/app_router.dart
+	@cp $(SKELETON_DIR)/main_home_screen.dart.tmpl  lib/presentation/features/main_home/main_home_screen.dart
+	@cp $(SKELETON_DIR)/home_screen.dart.tmpl       lib/presentation/features/home/home_screen.dart
+	@cp $(SKELETON_DIR)/storage_keys.dart.tmpl      lib/core/constants/storage_keys.dart
+	@cp $(SKELETON_DIR)/api_endpoint.dart.tmpl      lib/data/datasource/http/api_endpoint.dart
+	@cp $(SKELETON_DIR)/app_config.dart.tmpl        lib/core/config/app_config.dart
+	@cp $(SKELETON_DIR)/en-US.json                  assets/translations/en-US.json
+	@cp $(SKELETON_DIR)/vi-VN.json                  assets/translations/vi-VN.json
+	@cp $(SKELETON_DIR)/ja-JP.json                  assets/translations/ja-JP.json
+	@cp $(SKELETON_DIR)/README.md                   README.md
+	@echo "$(GREEN)✔ Example features removed, skeleton installed$(NC)"
+
+# Wipe boilerplate git history and start fresh with a single 'Initial commit'.
+# Destructive — asks for confirmation. Skipped if you don't type 'yes'.
+reset_git:
+	@echo "$(RED)⚠️  This DELETES the existing git history and re-initializes the repo.$(NC)"
+	@printf "Type 'yes' to reset git history (anything else skips): "; \
+	read ans; \
+	if [ "$$ans" = "yes" ]; then \
+		rm -rf .git; \
+		(git init -q -b main 2>/dev/null || git init -q); \
+		git add -A; \
+		git commit -q -m "Initial commit"; \
+		echo "$(GREEN)✔ Fresh git history created on branch '$$(git branch --show-current)'$(NC)"; \
+	else \
+		echo "$(BLUE)↩ Skipped git reset — boilerplate history kept.$(NC)"; \
+	fi
