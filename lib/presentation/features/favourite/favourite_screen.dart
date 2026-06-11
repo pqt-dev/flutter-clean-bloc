@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_bloc/generated/locale_keys.g.dart';
+import 'package:flutter_clean_bloc_skeleton/generated/locale_keys.g.dart';
 
 import '../country/widget/country_item_view.dart';
 import 'favourite_bloc.dart';

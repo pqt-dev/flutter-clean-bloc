@@ -1,6 +1,6 @@
-import 'package:flutter_clean_bloc/core/constants/storage_keys.dart';
-import 'package:flutter_clean_bloc/data/repositories/favourite/favourite_repository_impl.dart';
-import 'package:flutter_clean_bloc/domain/entities/country.dart';
+import 'package:flutter_clean_bloc_skeleton/core/constants/storage_keys.dart';
+import 'package:flutter_clean_bloc_skeleton/data/repositories/favourite/favourite_repository_impl.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/entities/country.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

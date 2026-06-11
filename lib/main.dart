@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_bloc/presentation/theme/app_theme.dart';
+import 'package:flutter_clean_bloc_skeleton/presentation/theme/app_theme.dart';
 
 import 'generated/codegen_loader.g.dart';
 import 'core/constants/app_constants.dart';

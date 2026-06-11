@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_bloc/domain/core/app_theme_mode.dart';
-import 'package:flutter_clean_bloc/domain/repositories/theme/theme_repository.dart';
-import 'package:flutter_clean_bloc/presentation/theme/theme_cubit.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/core/app_theme_mode.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/repositories/theme/theme_repository.dart';
+import 'package:flutter_clean_bloc_skeleton/presentation/theme/theme_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

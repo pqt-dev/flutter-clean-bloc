@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_bloc/presentation/extensions/build_context_x.dart';
-import 'package:flutter_clean_bloc/presentation/theme/app_theme_extension.dart';
+import 'package:flutter_clean_bloc_skeleton/presentation/extensions/build_context_x.dart';
+import 'package:flutter_clean_bloc_skeleton/presentation/theme/app_theme_extension.dart';
 
 import 'app_text.dart';
 

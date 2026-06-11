@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_bloc/presentation/theme/app_colors.dart';
-import 'package:flutter_clean_bloc/presentation/theme/app_theme_extension.dart';
+import 'package:flutter_clean_bloc_skeleton/presentation/theme/app_colors.dart';
+import 'package:flutter_clean_bloc_skeleton/presentation/theme/app_theme_extension.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {

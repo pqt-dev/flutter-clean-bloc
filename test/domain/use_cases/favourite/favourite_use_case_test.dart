@@ -1,6 +1,6 @@
-import 'package:flutter_clean_bloc/domain/entities/country.dart';
-import 'package:flutter_clean_bloc/domain/repositories/favourite/favourite_repository.dart';
-import 'package:flutter_clean_bloc/domain/use_cases/favourite/favourite_use_case.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/entities/country.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/repositories/favourite/favourite_repository.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/use_cases/favourite/favourite_use_case.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

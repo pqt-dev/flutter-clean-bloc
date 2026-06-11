@@ -1,5 +1,5 @@
-import 'package:flutter_clean_bloc/data/models/country/country_flag_model.dart';
-import 'package:flutter_clean_bloc/data/models/country/country_name_model.dart';
+import 'package:flutter_clean_bloc_skeleton/data/models/country/country_flag_model.dart';
+import 'package:flutter_clean_bloc_skeleton/data/models/country/country_name_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'country_model.freezed.dart';

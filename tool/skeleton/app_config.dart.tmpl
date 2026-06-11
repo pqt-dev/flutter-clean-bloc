@@ -1,0 +1,21 @@
+import 'package:flutter/services.dart';
+import 'package:injectable/injectable.dart';
+
+/// Centralized runtime configuration.
+///
+/// All app-level configuration values live here as the single source of truth
+/// and are injected where needed (the API key for the auth interceptor, the
+/// base URL for Dio). This is the only place these values appear in source.
+@lazySingleton
+class AppConfig {
+  const AppConfig();
+
+  // TODO: Set your API key (or remove if your API does not need one).
+  String get apiKey => '';
+
+  /// API base URL, selected per build flavor.
+  // TODO: Point each flavor at its own URL.
+  String get baseUrl => appFlavor == 'develop'
+      ? 'https://api.example.com'
+      : 'https://api.example.com';
+}

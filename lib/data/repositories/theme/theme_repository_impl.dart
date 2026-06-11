@@ -1,5 +1,5 @@
 
-import 'package:flutter_clean_bloc/domain/core/app_theme_mode.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/core/app_theme_mode.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';

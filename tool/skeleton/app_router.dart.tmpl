@@ -1,0 +1,38 @@
+import 'package:flutter/foundation.dart';
+import 'package:go_router/go_router.dart';
+
+import '../features/home/home_screen.dart';
+import '../features/main_home/main_home_screen.dart';
+import '../features/setting/setting_screen.dart';
+import 'app_routes.dart';
+
+class AppRouter {
+  static final router = GoRouter(
+    initialLocation: AppRoutes.home,
+    debugLogDiagnostics: kDebugMode,
+    routes: [
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            MainHomeScreen(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.home,
+                builder: (context, state) => const HomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.setting,
+                builder: (context, state) => const SettingScreen(),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
+  );
+}

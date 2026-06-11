@@ -1,6 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_bloc/domain/entities/country.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/entities/country.dart';
 
 import '../../../core/widgets/app_text.dart';
 import '../../favourite/widget/favourite_toggle_button.dart';
@@ -34,10 +33,10 @@ class CountryItemView extends StatelessWidget {
                       aspectRatio: 3 / 2,
                       // TODO: Build reusable image widget.
                       child: data.flags?.png != null
-                          ? CachedNetworkImage(
-                              imageUrl: data.flags!.png!,
+                          ? Image.network(
+                              data.flags!.png!,
                               fit: BoxFit.fitHeight,
-                              errorWidget: (_, _, _) => const Center(
+                              errorBuilder: (_, _, _) => const Center(
                                 child: Icon(Icons.flag_outlined, size: 36),
                               ),
                             )

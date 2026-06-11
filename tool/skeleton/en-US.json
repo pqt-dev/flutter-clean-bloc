@@ -1,0 +1,19 @@
+{
+  "home" : "Home",
+  "setting" : "Setting",
+  "ok" : "OK",
+  "cancel" : "Cancel",
+  "retry" : "Retry",
+  "language" : "Language",
+  "theme" : "Theme",
+  "theme_light" : "Light",
+  "theme_dark" : "Dark",
+  "theme_system" : "System",
+  "error" : {
+    "network" : "No internet connection. Please check your network and try again.",
+    "server" : "Something went wrong on the server. Please try again later.",
+    "auth" : "You are not authorized. Please sign in and try again.",
+    "parsing" : "We couldn't read the data. Please try again.",
+    "unexpected" : "An unexpected error occurred. Please try again."
+  }
+}

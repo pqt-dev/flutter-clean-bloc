@@ -1,0 +1,19 @@
+{
+  "home" : "Trang chủ",
+  "setting" : "Cài đặt",
+  "ok" : "OK",
+  "cancel" : "Hủy",
+  "retry" : "Thử lại",
+  "language" : "Ngôn ngữ",
+  "theme" : "Giao diện",
+  "theme_light" : "Sáng",
+  "theme_dark" : "Tối",
+  "theme_system" : "Theo hệ thống",
+  "error" : {
+    "network" : "Không có kết nối mạng. Vui lòng kiểm tra mạng và thử lại.",
+    "server" : "Đã xảy ra lỗi từ máy chủ. Vui lòng thử lại sau.",
+    "auth" : "Bạn không có quyền truy cập. Vui lòng đăng nhập và thử lại.",
+    "parsing" : "Không thể đọc dữ liệu. Vui lòng thử lại.",
+    "unexpected" : "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại."
+  }
+}

@@ -1,6 +1,6 @@
-import 'package:flutter_clean_bloc/domain/core/app_error.dart';
-import 'package:flutter_clean_bloc/generated/locale_keys.g.dart';
-import 'package:flutter_clean_bloc/presentation/core/error/app_error_message.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/core/app_error.dart';
+import 'package:flutter_clean_bloc_skeleton/generated/locale_keys.g.dart';
+import 'package:flutter_clean_bloc_skeleton/presentation/core/error/app_error_message.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

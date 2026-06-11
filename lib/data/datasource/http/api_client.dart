@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_clean_bloc/data/failures/exception_mapper.dart';
-import 'package:flutter_clean_bloc/domain/core/app_error.dart';
-import 'package:flutter_clean_bloc/domain/core/result.dart';
+import 'package:flutter_clean_bloc_skeleton/data/failures/exception_mapper.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/core/app_error.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/core/result.dart';
 import 'package:injectable/injectable.dart';
 
 enum ApiMethod {

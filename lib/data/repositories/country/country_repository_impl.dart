@@ -1,5 +1,5 @@
-import 'package:flutter_clean_bloc/data/mappers/country_mapper.dart';
-import 'package:flutter_clean_bloc/domain/entities/country.dart';
+import 'package:flutter_clean_bloc_skeleton/data/mappers/country_mapper.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/entities/country.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../domain/core/result.dart';
