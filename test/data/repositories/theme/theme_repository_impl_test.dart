@@ -1,3 +1,4 @@
+import 'package:flutter_clean_bloc/core/constants/storage_keys.dart';
 import 'package:flutter_clean_bloc/data/repositories/theme/theme_repository_impl.dart';
 import 'package:flutter_clean_bloc/domain/core/app_theme_mode.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,7 +9,7 @@ void main() {
 
   group('fetch', () {
     test('returns AppThemeMode.light when stored value is "light"', () async {
-      SharedPreferences.setMockInitialValues({'theme_mode_key': 'light'});
+      SharedPreferences.setMockInitialValues({StorageKeys.themeModeKey: 'light'});
       final prefs = await SharedPreferences.getInstance();
       repository = ThemeRepositoryImpl(prefs);
 
@@ -18,7 +19,7 @@ void main() {
     });
 
     test('returns AppThemeMode.dark when stored value is "dark"', () async {
-      SharedPreferences.setMockInitialValues({'theme_mode_key': 'dark'});
+      SharedPreferences.setMockInitialValues({StorageKeys.themeModeKey: 'dark'});
       final prefs = await SharedPreferences.getInstance();
       repository = ThemeRepositoryImpl(prefs);
 
@@ -28,7 +29,7 @@ void main() {
     });
 
     test('returns AppThemeMode.system when stored value is "system"', () async {
-      SharedPreferences.setMockInitialValues({'theme_mode_key': 'system'});
+      SharedPreferences.setMockInitialValues({StorageKeys.themeModeKey: 'system'});
       final prefs = await SharedPreferences.getInstance();
       repository = ThemeRepositoryImpl(prefs);
 
@@ -48,7 +49,7 @@ void main() {
     });
 
     test('returns AppThemeMode.system for unknown stored value', () async {
-      SharedPreferences.setMockInitialValues({'theme_mode_key': 'unknown_value'});
+      SharedPreferences.setMockInitialValues({StorageKeys.themeModeKey: 'unknown_value'});
       final prefs = await SharedPreferences.getInstance();
       repository = ThemeRepositoryImpl(prefs);
 
@@ -66,7 +67,7 @@ void main() {
 
       await repository.save(AppThemeMode.light);
 
-      expect(prefs.getString('theme_mode_key'), equals('light'));
+      expect(prefs.getString(StorageKeys.themeModeKey), equals('light'));
     });
 
     test('saves dark theme as "dark" string', () async {
@@ -76,7 +77,7 @@ void main() {
 
       await repository.save(AppThemeMode.dark);
 
-      expect(prefs.getString('theme_mode_key'), equals('dark'));
+      expect(prefs.getString(StorageKeys.themeModeKey), equals('dark'));
     });
 
     test('saves system theme as "system" string', () async {
@@ -86,7 +87,7 @@ void main() {
 
       await repository.save(AppThemeMode.system);
 
-      expect(prefs.getString('theme_mode_key'), equals('system'));
+      expect(prefs.getString(StorageKeys.themeModeKey), equals('system'));
     });
 
     test('save then fetch returns same theme', () async {
@@ -101,7 +102,7 @@ void main() {
     });
 
     test('overwriting previously saved theme', () async {
-      SharedPreferences.setMockInitialValues({'theme_mode_key': 'light'});
+      SharedPreferences.setMockInitialValues({StorageKeys.themeModeKey: 'light'});
       final prefs = await SharedPreferences.getInstance();
       repository = ThemeRepositoryImpl(prefs);
 

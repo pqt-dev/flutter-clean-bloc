@@ -16,10 +16,8 @@ class FavouriteUseCase {
 
   Future<List<Country>> getFavourites() => _repository.getFavourites();
 
-  bool _isSame(Country a, Country b) => a.cca3 != null && a.cca3 == b.cca3;
-
   bool contains(List<Country> current, Country country) =>
-      current.any((c) => _isSame(c, country));
+      current.any((c) => c.isSameAs(country));
 
   Future<List<Country>> add(List<Country> current, Country country) async {
     if (contains(current, country)) return current;
@@ -29,7 +27,7 @@ class FavouriteUseCase {
   }
 
   Future<List<Country>> remove(List<Country> current, Country country) async {
-    final updated = current.where((c) => !_isSame(c, country)).toList();
+    final updated = current.where((c) => !c.isSameAs(country)).toList();
     await _repository.saveFavourites(updated);
     return updated;
   }

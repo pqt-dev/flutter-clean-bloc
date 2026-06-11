@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_bloc/generated/locale_keys.g.dart';
 
-import '../../../infrastructure/di/injection.dart';
+import '../../../core/di/injection.dart';
 import '../../core/error/app_error_message.dart';
 import '../../core/widgets/app_loader.dart';
 import 'country_cubit.dart';

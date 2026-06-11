@@ -16,8 +16,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   const AppThemeExtension({required this.colors});
 
   Color getColor(Palette key) {
-    assert(colors[key] != null);
-    return colors[key]!;
+    assert(colors[key] != null, 'Missing Palette.$key in theme colors map');
+    return colors[key] ?? Colors.transparent;
   }
 
   @override

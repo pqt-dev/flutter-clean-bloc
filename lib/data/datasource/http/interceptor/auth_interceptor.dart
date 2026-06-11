@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_clean_bloc/infrastructure/config/app_config.dart';
+import 'package:flutter_clean_bloc/core/config/app_config.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_clean_bloc/data/datasource/core/interceptor/auth_interceptor.dart';
-import 'package:flutter_clean_bloc/infrastructure/config/app_config.dart';
+import 'package:flutter_clean_bloc/data/datasource/http/interceptor/auth_interceptor.dart';
+import 'package:flutter_clean_bloc/core/config/app_config.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class _FakeAppConfig extends AppConfig {

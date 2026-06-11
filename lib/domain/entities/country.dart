@@ -4,6 +4,8 @@ part 'country.freezed.dart';
 
 @freezed
 abstract class Country with _$Country {
+  const Country._();
+
   const factory Country({
     String? cca3,
     List<String>? capital,
@@ -14,6 +16,8 @@ abstract class Country with _$Country {
     CountryName? name,
     CountryFlag? flags,
   }) = _Country;
+
+  bool isSameAs(Country other) => cca3 != null && cca3 == other.cca3;
 }
 
 @freezed

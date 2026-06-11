@@ -2,8 +2,8 @@ import 'package:flutter_clean_bloc/domain/core/result.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../models/country/country_model.dart';
-import '../core/api_client.dart';
-import '../core/api_endpoint.dart';
+import '../http/api_client.dart';
+import '../http/api_endpoint.dart';
 import 'country_datasource.dart';
 
 @LazySingleton(as: CountryDatasource)
@@ -27,8 +27,6 @@ class CountryDatasourceRemote implements CountryDatasource {
           'region',
           'subregion',
           'population',
-          'postalCode',
-          'timezones',
         ],
       },
       decoder: (data) =>

@@ -39,9 +39,7 @@ class ApiClient {
       final response = await dio.request(
         endpoint,
         queryParameters: queryParameters,
-        options: options?.copyWith(
-          method: method.value,
-        ),
+        options: (options ?? Options()).copyWith(method: method.value),
         data: data,
         cancelToken: cancelToken,
       );

@@ -72,7 +72,6 @@ void main() {
     await cubit.loadCountries();
 
     final state = cubit.state;
-    expect(state, isA<dynamic>());
     state.maybeWhen(
       error: (error) => expect(error, isA<ServerError>()),
       orElse: () => fail('Expected error state'),

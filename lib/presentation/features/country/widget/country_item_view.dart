@@ -33,10 +33,17 @@ class CountryItemView extends StatelessWidget {
                     child: AspectRatio(
                       aspectRatio: 3 / 2,
                       // TODO: Build reusable image widget.
-                      child: CachedNetworkImage(
-                        imageUrl: data.flags?.png ?? '-',
-                        fit: BoxFit.fitHeight,
-                      ),
+                      child: data.flags?.png != null
+                          ? CachedNetworkImage(
+                              imageUrl: data.flags!.png!,
+                              fit: BoxFit.fitHeight,
+                              errorWidget: (_, _, _) => const Center(
+                                child: Icon(Icons.flag_outlined, size: 36),
+                              ),
+                            )
+                          : const Center(
+                              child: Icon(Icons.flag_outlined, size: 36),
+                            ),
                     ),
                   ),
                 ),

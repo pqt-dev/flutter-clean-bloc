@@ -31,8 +31,8 @@ class AppTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final TextInputType? textInputType;
   final TextInputAction? textInputAction;
-  final Function(String)? onChanged;
-  final Function(String)? onSubmitted;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
   final TextAlign textAlign;
   final TextStyle? textStyle;
   final List<TextInputFormatter>? inputFormatters;
