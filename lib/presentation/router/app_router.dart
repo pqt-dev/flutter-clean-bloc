@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/country/countries_screen.dart';
@@ -11,7 +12,7 @@ import 'app_routes.dart';
 class AppRouter {
   static final router = GoRouter(
     initialLocation: AppRoutes.home,
-    debugLogDiagnostics: true,
+    debugLogDiagnostics: kDebugMode,
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>

@@ -20,7 +20,7 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
   });
 
   final String? title;
-  final Function? onBack;
+  final VoidCallback? onBack;
   final List<Widget>? actions;
   final bool canBack;
   final Widget? leading;
@@ -38,13 +38,7 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
           )
         : (canBack
               ? IconButton(
-                  onPressed: () {
-                    if (onBack != null) {
-                      onBack!();
-                    } else {
-                      context.pop();
-                    }
-                  },
+                  onPressed: () => onBack != null ? onBack!() : context.pop(),
                   icon: Icon(
                     Platform.isAndroid ? Icons.arrow_back_outlined : Icons.arrow_back_ios_outlined,
                   ),

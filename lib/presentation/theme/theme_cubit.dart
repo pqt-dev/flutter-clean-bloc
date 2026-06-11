@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/core/app_theme_mode.dart';
-import '../../domain/use_cases/theme/theme_use_case.dart';
+import '../../domain/repositories/theme/theme_repository.dart';
 
 class ThemeCubit extends Cubit<ThemeMode> {
-  final ThemeUseCase _themeUseCase;
+  final ThemeRepository _repository;
 
-  ThemeCubit(this._themeUseCase) : super(ThemeMode.system);
+  ThemeCubit(this._repository) : super(ThemeMode.system);
 
   Future<void> loadTheme() async {
-    final appThemeMode = await _themeUseCase.fetch();
+    final appThemeMode = await _repository.fetch();
+    if (isClosed) return;
     emit(_toThemeMode(appThemeMode));
   }
 
   Future<void> setTheme(ThemeMode theme) async {
     final appThemeMode = _toAppThemeMode(theme);
-    await _themeUseCase.save(appThemeMode);
+    await _repository.save(appThemeMode);
+    if (isClosed) return;
     emit(theme);
   }
 

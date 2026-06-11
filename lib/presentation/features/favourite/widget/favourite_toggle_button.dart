@@ -18,8 +18,7 @@ class FavouriteToggleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<FavouriteBloc, FavouriteState, bool>(
-      selector: (state) => state.favouriteCountries
-          .any((c) => c.cca3 != null && c.cca3 == country.cca3),
+      selector: (state) => state.contains(country),
       builder: (context, isFavourite) {
         return IconButton(
           icon: Icon(

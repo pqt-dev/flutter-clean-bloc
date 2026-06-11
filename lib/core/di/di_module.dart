@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../data/datasource/core/interceptor/auth_interceptor.dart';
+import '../../data/datasource/http/interceptor/auth_interceptor.dart';
 import '../config/app_config.dart';
 
 @module

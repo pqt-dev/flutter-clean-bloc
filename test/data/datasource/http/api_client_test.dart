@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_clean_bloc/data/datasource/core/api_client.dart';
+import 'package:flutter_clean_bloc/data/datasource/http/api_client.dart';
 import 'package:flutter_clean_bloc/data/failures/exception_mapper.dart';
 import 'package:flutter_clean_bloc/domain/core/app_error.dart';
 import 'package:flutter_clean_bloc/domain/core/result.dart';

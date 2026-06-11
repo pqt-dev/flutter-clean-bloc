@@ -12,13 +12,12 @@ class CountryCubit extends Cubit<CountryState> {
   Future<void> loadCountries() async {
     emit(const CountryState.loading());
     final result = await _useCase.fetchAllCountries();
+    if (isClosed) return;
     switch (result) {
       case Success(:final value):
         emit(CountryState.data(value));
-        break;
       case Failure(:final error):
         emit(CountryState.error(error));
-        break;
     }
   }
 }

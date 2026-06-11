@@ -63,19 +63,25 @@ class AppDialog extends StatelessWidget {
           if (title != null)
             Builder(
               builder: (context) {
-                return AppText(
-                  text: title!,
-                  color: context.color(Palette.primaryTextColor),
-                  textAlign: TextAlign.center,
+                return SizedBox(
+                  width: double.infinity,
+                  child: AppText(
+                    text: title!,
+                    color: context.color(Palette.primaryTextColor),
+                    textAlign: TextAlign.center,
+                  ),
                 );
               },
             ),
           Builder(
             builder: (context) {
-              return AppText(
-                text: message,
-                color: context.color(Palette.primaryTextColor),
-                textAlign: TextAlign.center,
+              return SizedBox(
+                width: double.infinity,
+                child: AppText(
+                  text: message,
+                  color: context.color(Palette.primaryTextColor),
+                  textAlign: TextAlign.center,
+                ),
               );
             },
           ),
@@ -116,11 +122,7 @@ class AppDialog extends StatelessWidget {
                   vertical: 8.0,
                   horizontal: 16.0,
                 ),
-                onPressed: () {
-                  if (onConfirm != null) {
-                    onConfirm!();
-                  }
-                },
+                onPressed: onConfirm,
               );
             },
           ),

@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_bloc/presentation/theme/app_theme.dart';
 
 import 'generated/codegen_loader.g.dart';
-import 'infrastructure/constants/app_constants.dart';
-import 'infrastructure/constants/locale_constants.dart';
-import 'infrastructure/di/injection.dart';
+import 'core/constants/app_constants.dart';
+import 'core/constants/locale_constants.dart';
+import 'core/di/injection.dart';
 import 'presentation/router/app_router.dart';
 import 'presentation/theme/theme_cubit.dart';
 

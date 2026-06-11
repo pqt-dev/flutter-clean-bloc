@@ -1,3 +1,4 @@
+import 'package:flutter_clean_bloc/core/constants/storage_keys.dart';
 import 'package:flutter_clean_bloc/data/repositories/favourite/favourite_repository_impl.dart';
 import 'package:flutter_clean_bloc/domain/entities/country.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,7 +23,7 @@ void main() {
 
     test('returns empty list when stored data is corrupted', () async {
       repository = FavouriteRepositoryImpl(
-        await prefsWith({'favourites_key': 'not-json'}),
+        await prefsWith({StorageKeys.favouritesKey: 'not-json'}),
       );
       expect(await repository.getFavourites(), isEmpty);
     });

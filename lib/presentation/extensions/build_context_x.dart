@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme_extension.dart';
 
 extension ThemeX on BuildContext {
-  Color? color(Palette key) {
+  Color color(Palette key) {
     final theme = Theme.of(this).extension<AppThemeExtension>();
-    return theme?.getColor(key);
+    return theme?.getColor(key) ?? Colors.transparent;
   }
 
   /// Whether the currently applied theme is dark.

@@ -34,10 +34,10 @@ A lightweight, scalable Flutter starter template implementing **Clean Architectu
 
 ```
 lib
-├── infrastructure/    # Foundational code, shared across the app.
+├── core/              # Foundational code, shared across the app.
+│   ├── config/        # App configuration (flavors, base URLs).
 │   ├── constants/     # Global constants (Locale, storage keys, date formats, etc.).
-│   ├── di/            # Dependency injection setup using GetIt.
-│   └── services/      # Shared utility services (e.g., InternetConnectionService).
+│   └── di/            # Dependency injection setup using GetIt.
 │
 ├── data/
 │   ├── datasources/   # Abstract sources for local (DB, SharedPreferences) and remote (API) data.

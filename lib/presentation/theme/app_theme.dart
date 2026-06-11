@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_bloc/presentation/theme/app_colors.dart';
 import 'package:flutter_clean_bloc/presentation/theme/app_theme_extension.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,18 +11,18 @@ class AppTheme {
         extensions: [
           _lightThemeExtension,
         ],
-        textTheme: GoogleFonts.ubuntuTextTheme(ThemeData.light().textTheme),
+        textTheme: GoogleFonts.ubuntuTextTheme(),
       );
 
   static final _lightThemeExtension = AppThemeExtension(
     colors: {
-      Palette.primaryTextColor: Colors.black,
-      Palette.primaryBackground: Colors.white,
-      Palette.secondaryBackground: Colors.white70,
-      Palette.errorColor: Colors.red,
-      Palette.primaryTextFieldBackground: Colors.white12,
-      Palette.primaryButtonBackground: Colors.black87,
-      Palette.primaryButtonText: Colors.white,
+      Palette.primaryTextColor: AppColors.black,
+      Palette.primaryBackground: AppColors.white,
+      Palette.secondaryBackground: AppColors.white70,
+      Palette.errorColor: AppColors.crimsonRed,
+      Palette.primaryTextFieldBackground: AppColors.white12,
+      Palette.primaryButtonBackground: AppColors.black87,
+      Palette.primaryButtonText: AppColors.white,
     },
   );
 
@@ -32,18 +33,18 @@ class AppTheme {
         extensions: [
           _darkThemeExtension,
         ],
-        textTheme: GoogleFonts.ubuntuTextTheme(ThemeData.dark().textTheme),
+        textTheme: GoogleFonts.ubuntuTextTheme(),
       );
 
   static final _darkThemeExtension = AppThemeExtension(
     colors: {
-      Palette.primaryTextColor: Colors.white,
-      Palette.primaryBackground: Colors.black,
-      Palette.secondaryBackground: Colors.black54,
-      Palette.errorColor: Colors.red,
-      Palette.primaryTextFieldBackground: Colors.black12,
-      Palette.primaryButtonBackground: Colors.white70,
-      Palette.primaryButtonText: Colors.black87,
+      Palette.primaryTextColor: AppColors.white,
+      Palette.primaryBackground: AppColors.black,
+      Palette.secondaryBackground: AppColors.black54,
+      Palette.errorColor: AppColors.crimsonRed,
+      Palette.primaryTextFieldBackground: AppColors.black12,
+      Palette.primaryButtonBackground: AppColors.white70,
+      Palette.primaryButtonText: AppColors.black87,
     },
   );
 }
