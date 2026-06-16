@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logger/logger.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,4 +40,10 @@ abstract class NetworkModule {
 abstract class StorageModule {
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+}
+
+@module
+abstract class LoggingModule {
+  @lazySingleton
+  Logger get logger => Logger();
 }

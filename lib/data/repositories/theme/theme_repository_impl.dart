@@ -1,36 +1,35 @@
-
 import 'package:flutter_clean_bloc_skeleton/domain/core/app_theme_mode.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logger/logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../core/constants/storage_keys.dart';
+import '../../../domain/core/result.dart';
 import '../../../domain/repositories/theme/theme_repository.dart';
-
-final _logger = Logger();
+import '../../datasource/theme/theme_datasource.dart';
 
 @LazySingleton(as: ThemeRepository)
 class ThemeRepositoryImpl implements ThemeRepository {
-  final SharedPreferences preferences;
+  final ThemeDatasource datasource;
 
-  ThemeRepositoryImpl(this.preferences);
+  ThemeRepositoryImpl(this.datasource);
 
   @override
-  Future<AppThemeMode> fetch() async {
-    return switch (preferences.getString(StorageKeys.themeModeKey)) {
-      'light' => AppThemeMode.light,
-      'dark' => AppThemeMode.dark,
-      _ => AppThemeMode.system,
+  Future<Result<AppThemeMode>> fetch() async {
+    final result = await datasource.read();
+    return switch (result) {
+      Success(value: final stored) => Success(_toMode(stored)),
+      Failure(error: final error) => Failure(error),
     };
   }
 
   @override
-  Future<void> save(AppThemeMode theme) async {
-    try {
-      await preferences.setString(StorageKeys.themeModeKey, theme.name);
-    } catch (e, stackTrace) {
-      // SharedPreferences write failure is non-fatal; theme stays in memory.
-      _logger.e('Failed to persist theme', error: e, stackTrace: stackTrace);
-    }
+  Future<Result<void>> save(AppThemeMode theme) {
+    return datasource.write(theme.name);
+  }
+
+  AppThemeMode _toMode(String? stored) {
+    return switch (stored) {
+      'light' => AppThemeMode.light,
+      'dark' => AppThemeMode.dark,
+      _ => AppThemeMode.system,
+    };
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/core/app_theme_mode.dart';
+import '../../domain/core/result.dart';
 import '../../domain/repositories/theme/theme_repository.dart';
 
 class ThemeCubit extends Cubit<ThemeMode> {
@@ -10,14 +11,17 @@ class ThemeCubit extends Cubit<ThemeMode> {
   ThemeCubit(this._repository) : super(ThemeMode.system);
 
   Future<void> loadTheme() async {
-    final appThemeMode = await _repository.fetch();
+    final result = await _repository.fetch();
     if (isClosed) return;
-    emit(_toThemeMode(appThemeMode));
+    if (result case Success(:final value)) {
+      emit(_toThemeMode(value));
+    }
   }
 
   Future<void> setTheme(ThemeMode theme) async {
-    final appThemeMode = _toAppThemeMode(theme);
-    await _repository.save(appThemeMode);
+    // Persist first; applying the theme in memory is non-fatal if the write
+    // fails, so the selection still takes effect either way.
+    await _repository.save(_toAppThemeMode(theme));
     if (isClosed) return;
     emit(theme);
   }

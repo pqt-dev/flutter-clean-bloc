@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_bloc_skeleton/domain/core/app_theme_mode.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/core/result.dart';
 import 'package:flutter_clean_bloc_skeleton/domain/repositories/theme/theme_repository.dart';
 import 'package:flutter_clean_bloc_skeleton/presentation/theme/theme_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,6 +13,11 @@ import 'theme_cubit_test.mocks.dart';
 void main() {
   late MockThemeRepository repository;
   late ThemeCubit cubit;
+
+  setUpAll(() {
+    provideDummy<Result<AppThemeMode>>(const Success(AppThemeMode.system));
+    provideDummy<Result<void>>(const Success<void>(null));
+  });
 
   setUp(() {
     repository = MockThemeRepository();
@@ -26,7 +32,8 @@ void main() {
   });
 
   test('loadTheme emits the persisted theme', () async {
-    when(repository.fetch()).thenAnswer((_) async => AppThemeMode.dark);
+    when(repository.fetch())
+        .thenAnswer((_) async => const Success(AppThemeMode.dark));
 
     await cubit.loadTheme();
 
@@ -35,7 +42,8 @@ void main() {
   });
 
   test('setTheme persists then emits', () async {
-    when(repository.save(any)).thenAnswer((_) async {});
+    when(repository.save(any))
+        .thenAnswer((_) async => const Success<void>(null));
 
     await cubit.setTheme(ThemeMode.light);
 

@@ -1,15 +1,15 @@
-import 'package:flutter_clean_bloc_skeleton/domain/core/result.dart';
-import 'package:flutter_clean_bloc_skeleton/domain/entities/country.dart';
-import 'package:flutter_clean_bloc_skeleton/domain/repositories/country/country_repository.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../core/result.dart';
+import '../../entities/country.dart';
+import '../../repositories/country/country_repository.dart';
 
 @lazySingleton
 class CountryUseCase {
-  final CountryRepository repository;
+  final CountryRepository _repository;
 
-  CountryUseCase(this.repository);
+  CountryUseCase(this._repository);
 
-  Future<Result<List<Country>>> fetchAllCountries() async {
-    return repository.fetchAllCountries();
-  }
+  Future<Result<List<Country>>> fetchAllCountries({bool forceRefresh = false}) =>
+      _repository.fetchAllCountries(forceRefresh: forceRefresh);
 }

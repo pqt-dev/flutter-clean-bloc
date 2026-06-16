@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../domain/core/result.dart';
+import '../../../domain/entities/country.dart';
 import '../../../domain/use_cases/favourite/favourite_use_case.dart';
 import '../../core/bloc/event_transformers.dart';
 import 'favourite_event.dart';
@@ -15,21 +17,30 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
 
   FavouriteBloc(this._useCase) : super(const FavouriteState()) {
     on<LoadFavouritesEvent>((event, emit) async {
-      final favourites = await _useCase.getFavourites();
-      emit(state.copyWith(favouriteCountries: favourites));
+      _emitResult(emit, await _useCase.getFavourites());
     });
 
     on<AddFavouriteEvent>((event, emit) async {
-      final newList = await _useCase.add(state.favouriteCountries, event.country);
-      emit(state.copyWith(favouriteCountries: newList));
+      _emitResult(
+        emit,
+        await _useCase.add(state.favouriteCountries, event.country),
+      );
     }, transformer: sequential());
 
     on<RemoveFavouriteEvent>((event, emit) async {
-      final newList = await _useCase.remove(
-        state.favouriteCountries,
-        event.country,
+      _emitResult(
+        emit,
+        await _useCase.remove(state.favouriteCountries, event.country),
       );
-      emit(state.copyWith(favouriteCountries: newList));
     }, transformer: sequential());
+  }
+
+  void _emitResult(Emitter<FavouriteState> emit, Result<List<Country>> result) {
+    switch (result) {
+      case Success(:final value):
+        emit(state.copyWith(favouriteCountries: value, error: null));
+      case Failure(:final error):
+        emit(state.copyWith(error: error));
+    }
   }
 }

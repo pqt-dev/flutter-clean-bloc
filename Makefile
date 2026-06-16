@@ -226,7 +226,7 @@ init:
 		exit 1; \
 	fi
 	@echo "$(BLUE)🚀 Bootstrapping a new app from the boilerplate...$(NC)"
-	@$(MAKE) init_skeleton
+	@$(MAKE) init_skeleton FROM_INIT=1
 	@$(MAKE) rename project_name=$(project_name) package_name=$(package_name) app_name="$(app_name)"
 	@echo "$(BLUE)🧹 Removing skeleton templates (no boilerplate traces left)...$(NC)"
 	@rm -rf $(SKELETON_DIR)
@@ -241,6 +241,11 @@ init:
 # Remove example features (country / favourite / search) and install a minimal
 # Home + Setting skeleton from tool/skeleton. One-shot — run via init.
 init_skeleton:
+	@if [ "$(FROM_INIT)" != "1" ]; then \
+		echo "$(RED)❌ 'init_skeleton' is an internal step — it must run via 'make init'.$(NC)"; \
+		echo "$(BLUE)   Use: make init project_name=my_app package_name=com.company.myapp app_name=\"My App\"$(NC)"; \
+		exit 1; \
+	fi
 	@if [ ! -d "$(SKELETON_DIR)" ]; then \
 		echo "$(RED)❌ $(SKELETON_DIR) not found. 'init_skeleton' is a one-shot step and was already applied.$(NC)"; \
 		exit 1; \
@@ -248,6 +253,7 @@ init_skeleton:
 	@echo "$(BLUE)🗑️  Removing example features (country / favourite / search)...$(NC)"
 	@rm -rf \
 		lib/data/datasource/country \
+		lib/data/datasource/favourite \
 		lib/data/mappers \
 		lib/data/models/country \
 		lib/data/repositories/country \
@@ -260,6 +266,8 @@ init_skeleton:
 		lib/presentation/features/country \
 		lib/presentation/features/favourite \
 		lib/presentation/features/search \
+		test/data/datasource/country \
+		test/data/datasource/favourite \
 		test/data/mappers \
 		test/data/repositories/country \
 		test/data/repositories/favourite \

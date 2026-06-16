@@ -56,8 +56,9 @@ class CountriesScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 16.0),
                         ElevatedButton.icon(
-                          onPressed: () =>
-                              context.read<CountryCubit>().loadCountries(),
+                          onPressed: () => context
+                              .read<CountryCubit>()
+                              .loadCountries(forceRefresh: true),
                           icon: const Icon(Icons.refresh),
                           label: Text(LocaleKeys.retry.tr()),
                         ),
