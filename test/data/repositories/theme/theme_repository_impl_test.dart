@@ -1,115 +1,86 @@
-import 'package:flutter_clean_bloc_skeleton/core/constants/storage_keys.dart';
+import 'package:flutter_clean_bloc_skeleton/data/datasource/theme/theme_datasource.dart';
 import 'package:flutter_clean_bloc_skeleton/data/repositories/theme/theme_repository_impl.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/core/app_error.dart';
 import 'package:flutter_clean_bloc_skeleton/domain/core/app_theme_mode.dart';
+import 'package:flutter_clean_bloc_skeleton/domain/core/result.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
+import 'theme_repository_impl_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<ThemeDatasource>()])
 void main() {
+  late MockThemeDatasource datasource;
   late ThemeRepositoryImpl repository;
 
-  group('fetch', () {
-    test('returns AppThemeMode.light when stored value is "light"', () async {
-      SharedPreferences.setMockInitialValues({StorageKeys.themeModeKey: 'light'});
-      final prefs = await SharedPreferences.getInstance();
-      repository = ThemeRepositoryImpl(prefs);
+  setUpAll(() {
+    provideDummy<Result<String?>>(const Success<String?>(null));
+    provideDummy<Result<void>>(const Success<void>(null));
+  });
 
-      final result = await repository.fetch();
+  setUp(() {
+    datasource = MockThemeDatasource();
+    repository = ThemeRepositoryImpl(datasource);
+  });
 
-      expect(result, equals(AppThemeMode.light));
+  AppThemeMode unwrap(Result<AppThemeMode> result) {
+    return switch (result) {
+      Success(:final value) => value,
+      Failure(:final error) => fail('expected Success, got Failure: $error'),
+    };
+  }
+
+  group('fetch maps stored string to AppThemeMode', () {
+    test('"light" -> AppThemeMode.light', () async {
+      when(datasource.read()).thenAnswer((_) async => const Success('light'));
+      expect(unwrap(await repository.fetch()), equals(AppThemeMode.light));
     });
 
-    test('returns AppThemeMode.dark when stored value is "dark"', () async {
-      SharedPreferences.setMockInitialValues({StorageKeys.themeModeKey: 'dark'});
-      final prefs = await SharedPreferences.getInstance();
-      repository = ThemeRepositoryImpl(prefs);
-
-      final result = await repository.fetch();
-
-      expect(result, equals(AppThemeMode.dark));
+    test('"dark" -> AppThemeMode.dark', () async {
+      when(datasource.read()).thenAnswer((_) async => const Success('dark'));
+      expect(unwrap(await repository.fetch()), equals(AppThemeMode.dark));
     });
 
-    test('returns AppThemeMode.system when stored value is "system"', () async {
-      SharedPreferences.setMockInitialValues({StorageKeys.themeModeKey: 'system'});
-      final prefs = await SharedPreferences.getInstance();
-      repository = ThemeRepositoryImpl(prefs);
-
-      final result = await repository.fetch();
-
-      expect(result, equals(AppThemeMode.system));
+    test('"system" -> AppThemeMode.system', () async {
+      when(datasource.read()).thenAnswer((_) async => const Success('system'));
+      expect(unwrap(await repository.fetch()), equals(AppThemeMode.system));
     });
 
-    test('returns AppThemeMode.system when no value stored', () async {
-      SharedPreferences.setMockInitialValues({});
-      final prefs = await SharedPreferences.getInstance();
-      repository = ThemeRepositoryImpl(prefs);
-
-      final result = await repository.fetch();
-
-      expect(result, equals(AppThemeMode.system));
+    test('null -> AppThemeMode.system', () async {
+      when(datasource.read())
+          .thenAnswer((_) async => const Success<String?>(null));
+      expect(unwrap(await repository.fetch()), equals(AppThemeMode.system));
     });
 
-    test('returns AppThemeMode.system for unknown stored value', () async {
-      SharedPreferences.setMockInitialValues({StorageKeys.themeModeKey: 'unknown_value'});
-      final prefs = await SharedPreferences.getInstance();
-      repository = ThemeRepositoryImpl(prefs);
+    test('unknown value -> AppThemeMode.system', () async {
+      when(datasource.read()).thenAnswer((_) async => const Success('weird'));
+      expect(unwrap(await repository.fetch()), equals(AppThemeMode.system));
+    });
 
-      final result = await repository.fetch();
-
-      expect(result, equals(AppThemeMode.system));
+    test('propagates Failure from datasource', () async {
+      when(datasource.read())
+          .thenAnswer((_) async => const Failure(UnexpectedError()));
+      expect(await repository.fetch(), isA<Failure>());
     });
   });
 
-  group('save', () {
-    test('saves light theme as "light" string', () async {
-      SharedPreferences.setMockInitialValues({});
-      final prefs = await SharedPreferences.getInstance();
-      repository = ThemeRepositoryImpl(prefs);
+  group('save maps AppThemeMode to its name string', () {
+    test('writes "dark" for AppThemeMode.dark', () async {
+      when(datasource.write(any))
+          .thenAnswer((_) async => const Success<void>(null));
 
-      await repository.save(AppThemeMode.light);
+      final result = await repository.save(AppThemeMode.dark);
 
-      expect(prefs.getString(StorageKeys.themeModeKey), equals('light'));
+      expect(result, isA<Success>());
+      verify(datasource.write('dark')).called(1);
     });
 
-    test('saves dark theme as "dark" string', () async {
-      SharedPreferences.setMockInitialValues({});
-      final prefs = await SharedPreferences.getInstance();
-      repository = ThemeRepositoryImpl(prefs);
+    test('propagates Failure from datasource', () async {
+      when(datasource.write(any))
+          .thenAnswer((_) async => const Failure(UnexpectedError()));
 
-      await repository.save(AppThemeMode.dark);
-
-      expect(prefs.getString(StorageKeys.themeModeKey), equals('dark'));
-    });
-
-    test('saves system theme as "system" string', () async {
-      SharedPreferences.setMockInitialValues({});
-      final prefs = await SharedPreferences.getInstance();
-      repository = ThemeRepositoryImpl(prefs);
-
-      await repository.save(AppThemeMode.system);
-
-      expect(prefs.getString(StorageKeys.themeModeKey), equals('system'));
-    });
-
-    test('save then fetch returns same theme', () async {
-      SharedPreferences.setMockInitialValues({});
-      final prefs = await SharedPreferences.getInstance();
-      repository = ThemeRepositoryImpl(prefs);
-
-      await repository.save(AppThemeMode.dark);
-      final result = await repository.fetch();
-
-      expect(result, equals(AppThemeMode.dark));
-    });
-
-    test('overwriting previously saved theme', () async {
-      SharedPreferences.setMockInitialValues({StorageKeys.themeModeKey: 'light'});
-      final prefs = await SharedPreferences.getInstance();
-      repository = ThemeRepositoryImpl(prefs);
-
-      await repository.save(AppThemeMode.dark);
-      final result = await repository.fetch();
-
-      expect(result, equals(AppThemeMode.dark));
+      expect(await repository.save(AppThemeMode.light), isA<Failure>());
     });
   });
 }

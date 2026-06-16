@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../../../domain/core/app_error.dart';
 import '../../../../domain/entities/country.dart';
 
 part 'favourite_state.freezed.dart';
@@ -9,8 +10,9 @@ abstract class FavouriteState with _$FavouriteState {
 
   const factory FavouriteState({
     @Default([]) List<Country> favouriteCountries,
+    AppError? error,
   }) = _FavouriteState;
 
   bool contains(Country country) =>
-      favouriteCountries.any((c) => c.isSameAs(country));
+      favouriteCountries.containsCountry(country);
 }

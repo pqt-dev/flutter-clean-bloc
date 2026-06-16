@@ -9,9 +9,9 @@ class CountryCubit extends Cubit<CountryState> {
 
   CountryCubit(this._useCase) : super(const CountryState.initial());
 
-  Future<void> loadCountries() async {
+  Future<void> loadCountries({bool forceRefresh = false}) async {
     emit(const CountryState.loading());
-    final result = await _useCase.fetchAllCountries();
+    final result = await _useCase.fetchAllCountries(forceRefresh: forceRefresh);
     if (isClosed) return;
     switch (result) {
       case Success(:final value):

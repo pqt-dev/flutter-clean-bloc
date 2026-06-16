@@ -1,3 +1,4 @@
+import 'package:flutter_clean_bloc_skeleton/domain/core/result.dart';
 import 'package:flutter_clean_bloc_skeleton/domain/entities/country.dart';
 import 'package:flutter_clean_bloc_skeleton/domain/repositories/favourite/favourite_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -14,21 +15,27 @@ class FavouriteUseCase {
 
   FavouriteUseCase(this._repository);
 
-  Future<List<Country>> getFavourites() => _repository.getFavourites();
+  Future<Result<List<Country>>> getFavourites() => _repository.getFavourites();
 
   bool contains(List<Country> current, Country country) =>
-      current.any((c) => c.isSameAs(country));
+      current.containsCountry(country);
 
-  Future<List<Country>> add(List<Country> current, Country country) async {
-    if (contains(current, country)) return current;
+  Future<Result<List<Country>>> add(List<Country> current, Country country) async {
+    if (contains(current, country)) return Success(current);
     final updated = [...current, country];
-    await _repository.saveFavourites(updated);
-    return updated;
+    return _persist(updated);
   }
 
-  Future<List<Country>> remove(List<Country> current, Country country) async {
+  Future<Result<List<Country>>> remove(List<Country> current, Country country) async {
     final updated = current.where((c) => !c.isSameAs(country)).toList();
-    await _repository.saveFavourites(updated);
-    return updated;
+    return _persist(updated);
+  }
+
+  Future<Result<List<Country>>> _persist(List<Country> updated) async {
+    final result = await _repository.saveFavourites(updated);
+    return switch (result) {
+      Success() => Success(updated),
+      Failure(:final error) => Failure(error),
+    };
   }
 }

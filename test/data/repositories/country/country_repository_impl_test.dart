@@ -1,3 +1,4 @@
+import 'package:flutter_clean_bloc_skeleton/data/datasource/country/country_cache_datasource_memory.dart';
 import 'package:flutter_clean_bloc_skeleton/data/datasource/country/country_datasource.dart';
 import 'package:flutter_clean_bloc_skeleton/data/models/country/country_model.dart';
 import 'package:flutter_clean_bloc_skeleton/data/models/country/country_name_model.dart';
@@ -15,11 +16,13 @@ import 'country_repository_impl_test.mocks.dart';
 @GenerateNiceMocks([MockSpec<CountryDatasource>()])
 void main() {
   late MockCountryDatasource datasource;
+  late CountryCacheDatasourceMemory cache;
   late CountryRepositoryImpl repository;
 
   setUp(() {
     datasource = MockCountryDatasource();
-    repository = CountryRepositoryImpl(datasource);
+    cache = CountryCacheDatasourceMemory();
+    repository = CountryRepositoryImpl(datasource, cache);
   });
 
   group('fetchAllCountries', () {
@@ -116,6 +119,39 @@ void main() {
       expect(country.flags?.png, equals('https://flagcdn.com/au.png'));
       expect(country.flags?.svg, equals('https://flagcdn.com/au.svg'));
       expect(country.flags?.alt, equals('Australian flag'));
+    });
+  });
+
+  group('caching', () {
+    final models = [CountryModel(name: CountryNameModel(common: 'Vietnam'))];
+
+    setUp(() {
+      provideDummy<Result<List<CountryModel>>>(Success(models));
+      when(datasource.fetchCountries()).thenAnswer((_) async => Success(models));
+    });
+
+    test('serves the second call from cache without hitting remote', () async {
+      await repository.fetchAllCountries();
+      await repository.fetchAllCountries();
+
+      verify(datasource.fetchCountries()).called(1);
+    });
+
+    test('forceRefresh bypasses the cache and refetches', () async {
+      await repository.fetchAllCountries();
+      await repository.fetchAllCountries(forceRefresh: true);
+
+      verify(datasource.fetchCountries()).called(2);
+    });
+
+    test('does not cache a failed fetch', () async {
+      when(datasource.fetchCountries())
+          .thenAnswer((_) async => Failure(NetworkError()));
+
+      await repository.fetchAllCountries();
+      await repository.fetchAllCountries();
+
+      verify(datasource.fetchCountries()).called(2);
     });
   });
 }

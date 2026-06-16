@@ -46,4 +46,15 @@ void main() {
     expect((result as Failure).error, isA<NetworkError>());
     verify(repository.fetchAllCountries()).called(1);
   });
+
+  test('fetchAllCountries forwards forceRefresh to repository', () async {
+    final expected = Success(<Country>[]);
+    provideDummy<Result<List<Country>>>(expected);
+    when(repository.fetchAllCountries(forceRefresh: true))
+        .thenAnswer((_) async => expected);
+
+    await useCase.fetchAllCountries(forceRefresh: true);
+
+    verify(repository.fetchAllCountries(forceRefresh: true)).called(1);
+  });
 }

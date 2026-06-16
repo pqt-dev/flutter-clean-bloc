@@ -20,6 +20,12 @@ abstract class Country with _$Country {
   bool isSameAs(Country other) => cca3 != null && cca3 == other.cca3;
 }
 
+extension CountryListX on List<Country> {
+  /// Whether [country] is already a member, by stable identity
+  /// ([Country.isSameAs]). Single source of truth for favourite membership.
+  bool containsCountry(Country country) => any((c) => c.isSameAs(country));
+}
+
 @freezed
 abstract class CountryName with _$CountryName {
   const factory CountryName({

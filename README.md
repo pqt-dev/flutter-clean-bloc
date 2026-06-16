@@ -105,6 +105,19 @@ lib
 └── main.dart          # Application entry point
 ```
 
+### 📐 Layer conventions
+
+- **Every feature goes through a UseCase.** Blocs/Cubits depend on a `UseCase`,
+  never directly on a `Repository` — even when the UseCase is a thin wrapper
+  that just delegates to the repository (e.g. `CountryUseCase.fetchAllCountries`).
+  This keeps the skeleton consistent so business logic always has one obvious
+  home and the presentation layer never reaches into the data layer.
+- **Repository owns data-sourcing.** Deciding cache vs. remote, mapping models
+  to entities, and orchestrating multiple data sources all live in the
+  repository — not in the UseCase or Bloc.
+- In a **real project** you may drop a wrapper UseCase and call the repository
+  directly if you prefer; that trade-off is the app's call, not the skeleton's.
+
 ## 📚 Core packages
 
 | Category         | Package                                                           |
